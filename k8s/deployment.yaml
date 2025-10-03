@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neural-glass
+  labels:
+    app: neural-glass
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: neural-glass
+  template:
+    metadata:
+      labels:
+        app: neural-glass
+    spec:
+      containers:
+        - name: neural-glass
+          # This will be overwritten by the GitHub Actions workflow
+          image: IMAGE_PLACEHOLDER
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
