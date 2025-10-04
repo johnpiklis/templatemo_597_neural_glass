@@ -43,15 +43,5 @@ jobs:
     - name: Push to ECR
       run: docker push $IMAGE_URI
 
-    - name: Update k8s deployment image
-      run: |
-        git config user.name "${{ secrets.USER_NAME }}"
-        git config user.email "${{ secrets.USER_EMAIL }}"
-        
-    - name: Update k8s deployment image (runtime only)
-      run: |
-       sed -i "s|IMAGE_PLACEHOLDER|${IMAGE_URI}|g" k8s/deployment.yaml
-       cat k8s/deployment.yaml
-
     - name: Display resulting image
       run: echo "Pushed ${IMAGE_URI}"
