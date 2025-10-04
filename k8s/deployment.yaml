@@ -4,6 +4,9 @@ metadata:
   name: neural-glass
   labels:
     app: neural-glass
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: neural-glass=820242906281.dkr.ecr.us-east-1.amazonaws.com/neural-glass
+    argocd-image-updater.argoproj.io/neural-glass.update-strategy: latest
 spec:
   replicas: 2
   selector:
@@ -16,7 +19,6 @@ spec:
     spec:
       containers:
         - name: neural-glass
-          # GitHub Actions will overwrite this with latest ECR image
           image: IMAGE_PLACEHOLDER
           ports:
             - containerPort: 80
