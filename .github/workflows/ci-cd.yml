@@ -3,10 +3,14 @@ name: build-and-push
 on:
   push:
     branches: [ "main" ]
+    
+permissions:
+  contents: write
 
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: neural-glass
+  
 
 jobs:
   build:
@@ -40,13 +44,17 @@ jobs:
       run: docker push $IMAGE_URI
 
     - name: Update k8s deployment image
-      run: |
-        git config user.name "${{ secrets.USER_NAME }}"
-        git config user.email "${{ secrets.USER_EMAIL }}"
-        sed -i "s|IMAGE_PLACEHOLDER|${IMAGE_URI}|g" k8s/deployment.yaml
-        git add k8s/deployment.yaml
-        git commit -m "ci: deploy image ${IMAGE_URI}" || echo "no changes to commit"
-        git push origin HEAD:main
+    run: |
+     git config user.name "${{ secrets.USER_NAME }}"
+     git config user.email "${{ secrets.USER_EMAIL }}"
+     sed -i "s|IMAGE_PLACEHOLDER|${IMAGE_URI}|g" k8s/deployment.yaml
+     git add k8s/deployment.yaml
+     git commit -m "ci: deploy image ${IMAGE_URI}" || echo "no changes to commit"
+     git push origin HEAD:main
+     
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     
 
-    - name: Display resulting image
-      run: echo "Pushed ${IMAGE_URI}"
+     - name: Display resulting image
+       run: echo "Pushed ${IMAGE_URI}"
