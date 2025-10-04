@@ -17,7 +17,7 @@ spec:
       containers:
         - name: neural-glass
           # This will be overwritten by the GitHub Actions workflow
-          image: IMAGE_PLACEHOLDER
+          image: 820242906281.dkr.ecr.us-east-1.amazonaws.com/neural-glass:8c4cec80
           ports:
             - containerPort: 80
           resources:
